@@ -6,8 +6,11 @@ package info
 
 import (
 	"fmt"
+	"github.com/ricochet2200/go-disk-usage/du"
 	"github.com/spf13/cobra"
 )
+
+var KB = uint64(1024)
 
 // diskUsageCmd represents the diskUsage command
 var diskUsageCmd = &cobra.Command{
@@ -15,7 +18,13 @@ var diskUsageCmd = &cobra.Command{
 	Short: "Prints the disk usage statistics of the current directory",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("diskUsage called")
+		usage := du.NewDiskUsage("/Users/vinod/code")
+		fmt.Println("Disk Usage: ")
+		fmt.Println("  Free:", usage.Free()/(KB*KB), "GB")
+		fmt.Println("  Available:", usage.Available()/(KB*KB), "GB")
+		fmt.Println("  Size:", usage.Size()/(KB*KB), "GB")
+		fmt.Println("  Used:", usage.Used()/(KB*KB), "GB")
+		fmt.Println("  Usage:", usage.Usage()*100, "%")
 	},
 }
 
